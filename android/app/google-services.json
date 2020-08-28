@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1035433920311",
+    "firebase_url": "https://flash-chat-d9095.firebaseio.com",
+    "project_id": "flash-chat-d9095",
+    "storage_bucket": "flash-chat-d9095.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035433920311:android:5960ed0f236418bdfa3cb2",
+        "android_client_info": {
+          "package_name": "co.AtharvaShembade.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1035433920311-ahfphk2snqgu8efi9n26ggl4h7hhu51j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAziY4YA38rAsizMYOcxsPRUYUkga2zPyY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035433920311-ahfphk2snqgu8efi9n26ggl4h7hhu51j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
