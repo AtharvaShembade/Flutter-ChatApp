@@ -4,8 +4,8 @@ import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final _firestore = FirebaseFirestore.instance;
-User loggedInUser;
+final _firestore = Firestore.instance;
+FirebaseUser loggedInUser;
 
 class ChatScreen extends StatefulWidget {
 
@@ -27,9 +27,9 @@ class _ChatScreenState extends State<ChatScreen> {
     getCurrentUser();
   }
 
-  void getCurrentUser() {
+  void getCurrentUser() async{
     try {
-      final user = _auth.currentUser;
+      final user = await _auth.currentUser();
       if (user != null) {
         loggedInUser = user;
       }
@@ -81,8 +81,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       //messageText + loggedInUser.email
                       _firestore.collection('messages').add({
                         'text': messageText,
-                        'time': FieldValue.serverTimestamp(),//added
                         'sender': loggedInUser.email,
+                        'time': FieldValue.serverTimestamp(),//added
                       });
                     },
                     child: Text(
@@ -104,7 +104,10 @@ class MessagesStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('messages').orderBy('time', descending: false).snapshots(),//added
+      stream: _firestore
+          .collection('messages')
+          .orderBy('time', descending: false)
+          .snapshots(),//added
       builder: (context, snapshot) {
         if ( !snapshot.hasData) {
           return Center(
@@ -113,12 +116,13 @@ class MessagesStream extends StatelessWidget {
             ),
           );
         }
-        final messages = snapshot.data.docs.reversed;
+        final messages = snapshot.data.documents.reversed;
         List<MessageBubble> messageBubbles = [];
         for (var message in messages) {
-          final messageText = message.data().values.last;
-          final messageSender = message.data().values.first;
-          final messageTime = message.data().values.single as Timestamp; //added
+          final messageText = message.data['text'];
+          final messageSender = message.data['sender'];
+          final messageTime = message.data['time'] as Timestamp; //added
+
           final currentUser = loggedInUser.email;
 
           final messageBubble  = MessageBubble(
@@ -145,7 +149,7 @@ class MessagesStream extends StatelessWidget {
 
 class MessageBubble extends StatelessWidget {
 
-  MessageBubble({this.sender, this.text, this.isMe, this.time});
+  MessageBubble({this.sender, this.text, this.isMe, this.time}); //add this.time
 
   final String sender;
   final String text;
